@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Rock Paper Scissor</title>
+  <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Press Start 2P">
+  <style>
+    .selection{
+        display: flex;
+        justify-content: space-evenly;
+    }
+    h3, #verdict {
+        font-size: x-large;
+        margin-top: 10rem;
+    }
+    h3, h5 {
+        display: flex;
+        justify-content: center;
+    }
+    .computerMove, .yourMove{
+        display: flex;
+        justify-content: center;
+    }
+    body {
+        font-family: "Press Start 2P";
+    }
+    p, #verdict{
+        display: flex;
+        justify-content: center;
+    }
+
+
+
+    
+  </style>
+</head>
+<body>
+    <h3>Rock Paper Scissors</h3>
+
+    
+    <div class='selection'>
+        <div class='yourSection'>
+            <h5>Your Move</h5>
+            <p class='yourScore'></p>
+            <button style='font-size:100px;' class='rock'>&#9994;</button> <!-- Rock -->
+            <button style='font-size:100px;' class='paper'>&#9995;</button> <!-- Paper -->
+            <button style='font-size:100px;' class='scissor'>&#9996;</button> <!-- Scissor -->
+        </div>
+        <div class='computerSection'>
+            <h5>Computer's Move</h5>
+            <p class='computerScore'></p>
+            <span style='font-size:100px;' class='computerMove'></span>
+        </div>
+    </div>
+
+    <h1 id='verdict'></h1>
+
+
+  <script>
+        
+        
+        rock = document.querySelector('.rock');
+        paper = document.querySelector('.paper');
+        scissor = document.querySelector('.scissor');
+        computerMove = document.querySelector('.computerMove')
+        yourScore = document.querySelector('.yourScore')
+        computerScore = document.querySelector('.computerScore')
+        verdict = document.getElementById('verdict');
+        const options = ['Rock','Paper','Scissors']
+        let ply = 0;
+        let cmpt = 0;
+        yourScore.textContent = ply
+        computerScore.textContent = cmpt
+
+        function computerPlay() {
+            i = Math.floor(Math.random()*3)
+            computerMove.innerHTML = (i==0) ? '&#9994;' : (i==1)? '&#9995;':'&#9996;'
+            // console.log("Computer:", options[i])
+
+            return options[i]
+        }
+        
+
+
+
+        
+
+        function playRound(playerSelection, computerSelection) {
+            console.log("Computer:", computerSelection)
+            console.log("Player:", playerSelection)
+
+            if(playerSelection==options[0]){
+                if (computerSelection==options[0]){
+                    // verdict.textContent = "It's a tie!"
+                } else if (computerSelection==options[1]){
+                    cmpt++;
+                    // verdict.textContent ="Computer wins!"
+                } else {
+                    ply++;
+                    // verdict.textContent = "Player wins!"
+                }
+            } else if (playerSelection==options[1]){
+                if (computerSelection==options[0]){
+                    ply++;
+                    // verdict.textContent = "Player wins!"
+                } else if (computerSelection==options[1]){
+                    // verdict.textContent = "It's a tie!"
+                } else {
+                    cmpt++;
+                    // verdict.textContent = "Computer wins!"
+                }
+            } else {
+                if (computerSelection==options[0]){
+                    cmpt++;
+                    // verdict.textContent = "Computer wins!"
+                } else if (computerSelection==options[1]){
+                    ply++;
+                    // verdict.textContent ="Player wins!"
+                } else {
+                    // verdict.textContent = "It's a tie!"
+                }
+            }
+            yourScore.textContent = ply
+            computerScore.textContent = cmpt
+            console.log('ply:',ply)
+            console.log('cmpt: ',cmpt)
+            if(ply==5 || cmpt ==5){
+
+                (ply>cmpt) ? verdict.textContent = "Player wins" : (cmpt>ply) ? verdict.textContent = "Computer wins" : verdict.textContent = "It's a tie!"
+                setTimeout( () =>{
+                    askReset();
+                }, 2000);
+            }
+            return ply, cmpt
+        }
+
+        function askReset(){
+            // RESET AGAIN
+            let confirmAction = confirm('Do you want to play again?')
+            if (confirmAction) {
+                ply=0;
+                cmpt=0;
+                yourScore.textContent = ply
+                computerScore.textContent = cmpt
+                verdict.textContent = ""
+            } else {
+            // Do nothing!
+                console.log('Exiting...');
+            }
+
+        }
+        
+        function game(){
+
+      
+            rock.addEventListener('click', () => playRound(options[0], computerPlay()))
+            paper.addEventListener('click', () => playRound(options[1], computerPlay()))
+            scissor.addEventListener('click', () => playRound(options[2], computerPlay()))
+
+            console.log("-----")
+            
+            
+        }
+
+        game()
+
+
+  </script>
+</body>
+</html>
